@@ -17,6 +17,7 @@ if __name__ == '__main__':
     
     mu = np.zeros((2,1))
     var = np.matrix([[1, .8],[.8, 1]])
+    M = np.matrix([[1,0],[0,1]])
 
     # potential energy function
     def U_func(X):    
@@ -30,12 +31,12 @@ if __name__ == '__main__':
         
     # kinetic energy function    
     def K_func(P):
-        s = np.sum( P.T * P / 2 )
+        s = np.sum( P.T * M * P / 2 )
         return s
     
     # gradient kinetic energy function
     def dK_func(P):
-        return P
+        return M * P
     
     X0 = np.matrix([[0],[6]])
     X = HMC(sample_num, 2, X0, delta, L, U_func, dU_func, K_func, dK_func)
