@@ -15,7 +15,7 @@ if __name__ == '__main__':
     sample_num = 1000
     L = 20
     
-    mu = np.matrix([[10],[10]])
+    mu = np.matrix([[2],[2]])
     var = np.matrix([[1, .8],[.8, 1]])
     M = np.matrix([[1,0],[0,1]])
 
@@ -39,7 +39,8 @@ if __name__ == '__main__':
     def dK_func(P):
         return M * P
     
-    X = HMC(sample_num, 2, delta, L, U_func, dU_func, K_func, dK_func)
+    X = np.random.randn(2, sample_num)
+    X = HMC(sample_num, 2, X, delta, L, U_func, dU_func, K_func, dK_func)
     
     s_mu = np.mean(X,1)
     s_var = np.cov(X)

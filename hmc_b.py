@@ -27,10 +27,9 @@ def LeapFrog(X0, P0, delta, L, dU, dK):
     
     return X_star, P_star
 
-def HMC(sample_num, dim, delta, L, U, dU, K, dK):
+def HMC(sample_num, dim, X, delta, L, U, dU, K, dK):
 
     # initial state
-    X = np.random.randn(dim, sample_num)
     X = np.matrix(X)
 
     for i in range(sample_num):
@@ -40,7 +39,7 @@ def HMC(sample_num, dim, delta, L, U, dU, K, dK):
         P0 = np.random.randn(dim,1)
         P0 = np.matrix(P0)
         
-        walk_num = 5
+        walk_num = 1
         for j in range(walk_num):        
             X_star, P_star = LeapFrog(X0, P0, delta, L, dU, dK)
             

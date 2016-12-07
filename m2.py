@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     
     # step size
-    delta = 0.3
-    sample_num = 1000
-    L = 20
+    delta = 0.05
+    sample_num = 500
+    L = 40
     
     mu = np.zeros((2,1))
     var = np.matrix([[1, .8],[.8, 1]])
@@ -31,12 +31,14 @@ if __name__ == '__main__':
 
     # potential energy function
     def U_func(X):    
-        U = X.T * np.linalg.inv(var) * X / 2 + tau * C(X)
+        #U = X.T * np.linalg.inv(var) * X / 2 + tau * C(X)
+        U = tau * C(X)
         return np.sum(U)
     
     # gradient potential energy function
     def dU_func(X):
-        A = np.linalg.inv(var) * X + tau * dC(X)
+        #A = np.linalg.inv(var) * X + tau * dC(X)
+        A = tau * dC(X)
         return A
         
     # kinetic energy function    
@@ -48,7 +50,7 @@ if __name__ == '__main__':
     def dK_func(P):
         return M * P
     
-    X0 = np.matrix([[0],[6]])
+    X0 = np.matrix([[0],[0.5]])
     X = HMC(sample_num, 2, X0, delta, L, U_func, dU_func, K_func, dK_func)
     
     s_mu = np.mean(X,1)
@@ -61,7 +63,7 @@ if __name__ == '__main__':
     ax = fig.add_subplot(111)
     ax.scatter(X[0,:],X[1,:])
     ax.plot(X[0,0:50],X[1,0:50],'r')
-    ax.set_xlim([-6,6])
-    ax.set_ylim([-6,6])
+    #ax.set_xlim([-6,6])
+    #ax.set_ylim([-6,6])
     
     plt.show()
