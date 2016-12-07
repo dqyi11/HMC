@@ -4,7 +4,7 @@ Created on Dec 6, 2016
 @author: daqingy
 '''
 
-from hmc import HMC
+from hmc_b import HMC
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,18 +15,19 @@ if __name__ == '__main__':
     sample_num = 1000
     L = 20
     
-    mu = np.zeros((2,1))
+    mu = np.matrix([[10],[10]])
     var = np.matrix([[1, .8],[.8, 1]])
     M = np.matrix([[1,0],[0,1]])
 
     # potential energy function
-    def U_func(X):    
-        U = X.T * np.linalg.inv(var) * X / 2
+    def U_func(X):   
+        nX = X - mu 
+        U = nX.T * np.linalg.inv(var) * nX / 2
         return np.sum(U)
     
     # gradient potential energy function
     def dU_func(X):
-        A = np.linalg.inv(var) * X
+        A = np.linalg.inv(var) * (X-mu)
         return A
         
     # kinetic energy function    
@@ -38,8 +39,7 @@ if __name__ == '__main__':
     def dK_func(P):
         return M * P
     
-    X0 = np.matrix([[0],[6]])
-    X = HMC(sample_num, 2, X0, delta, L, U_func, dU_func, K_func, dK_func)
+    X = HMC(sample_num, 2, delta, L, U_func, dU_func, K_func, dK_func)
     
     s_mu = np.mean(X,1)
     s_var = np.cov(X)

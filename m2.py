@@ -18,15 +18,25 @@ if __name__ == '__main__':
     mu = np.zeros((2,1))
     var = np.matrix([[1, .8],[.8, 1]])
     M = np.matrix([[1,0],[0,1]])
+    
+    # C(X) 
+    # x^2 + y^2 - 1
+    tau = 1000
+    
+    def C(X):
+        return np.sum(X.T * X) - 1
+    
+    def dC(X):
+        return np.matrix([[2*X[0,0]], [2*X[1,0]]])  
 
     # potential energy function
     def U_func(X):    
-        U = X.T * np.linalg.inv(var) * X / 2
+        U = X.T * np.linalg.inv(var) * X / 2 + tau * C(X)
         return np.sum(U)
     
     # gradient potential energy function
     def dU_func(X):
-        A = np.linalg.inv(var) * X
+        A = np.linalg.inv(var) * X + tau * dC(X)
         return A
         
     # kinetic energy function    
@@ -51,7 +61,7 @@ if __name__ == '__main__':
     ax = fig.add_subplot(111)
     ax.scatter(X[0,:],X[1,:])
     ax.plot(X[0,0:50],X[1,0:50],'r')
-    #ax.set_xlim([-6,6])
-    #ax.set_ylim([-6,6])
+    ax.set_xlim([-6,6])
+    ax.set_ylim([-6,6])
     
     plt.show()

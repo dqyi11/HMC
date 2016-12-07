@@ -15,18 +15,19 @@ if __name__ == '__main__':
     sample_num = 1000
     L = 20
     
-    mu = np.zeros((2,1))
+    mu = np.matrix([[10],[10]])
     var = np.matrix([[1, .8],[.8, 1]])
     M = np.matrix([[1,0],[0,1]])
 
     # potential energy function
-    def U_func(X):    
-        U = X.T * np.linalg.inv(var) * X / 2
+    def U_func(X):   
+        nX = X - mu 
+        U = nX.T * np.linalg.inv(var) * nX / 2
         return np.sum(U)
     
     # gradient potential energy function
     def dU_func(X):
-        A = np.linalg.inv(var) * X
+        A = np.linalg.inv(var) * (X-mu)
         return A
         
     # kinetic energy function    

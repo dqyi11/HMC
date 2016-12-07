@@ -4,7 +4,8 @@ Created on Dec 6, 2016
 @author: daqingy
 '''
 
-from hmc import HMC
+#from hmc import HMC
+from hmc_b import HMC
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -38,8 +39,7 @@ if __name__ == '__main__':
     def dK_func(P):
         return M * P
     
-    X0 = np.matrix([[0],[6]])
-    X = HMC(sample_num, 2, X0, delta, L, U_func, dU_func, K_func, dK_func)
+    X = HMC(sample_num, 2, delta, L, U_func, dU_func, K_func, dK_func)
     
     s_mu = np.mean(X,1)
     s_var = np.cov(X)
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     ax = fig.add_subplot(111)
     ax.scatter(X[0,:],X[1,:])
     ax.plot(X[0,0:50],X[1,0:50],'r')
-    #ax.set_xlim([-6,6])
-    #ax.set_ylim([-6,6])
+    ax.set_xlim([-6,6])
+    ax.set_ylim([-6,6])
     
     plt.show()
